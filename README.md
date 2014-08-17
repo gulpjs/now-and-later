@@ -1,5 +1,7 @@
 # now-and-later
 
+Series/parallel execution of async functions with extension points
+
 ## Usage
 
 ```js
