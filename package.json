@@ -1,0 +1,29 @@
+{
+  "name": "now-and-later",
+  "version": "0.0.0",
+  "description": "now-and-later =============",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phated/now-and-later"
+  },
+  "keywords": [
+    "async",
+    "extension",
+    "tracing",
+    "debug",
+    "aop"
+  ],
+  "author": "Blaine Bublitz <blaine@iceddev.com> (http://iceddev.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/phated/now-and-later/issues"
+  },
+  "homepage": "https://github.com/phated/now-and-later",
+  "dependencies": {
+    "async-done": "^0.3.0"
+  }
+}
