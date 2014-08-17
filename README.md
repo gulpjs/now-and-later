@@ -36,7 +36,7 @@ nal.series([fn1, fn2], {
   before: before,
   after: after,
   error: error
-});
+}, console.log);
 
 nal.parallel({
   fn1: fn1,
@@ -45,5 +45,5 @@ nal.parallel({
   before: before,
   after: after,
   error: error
-});
+}, console.log);
 ```
