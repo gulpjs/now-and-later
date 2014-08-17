@@ -33,4 +33,13 @@ nal.series({
   after: after,
   error: error
 });
+
+nal.parallel({
+  fn1: fn1,
+  fn2: fn2
+}, {
+  before: before,
+  after: after,
+  error: error
+});
 ```
