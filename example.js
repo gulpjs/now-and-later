@@ -19,29 +19,40 @@ function fn3(done){
   done(new Error('fn3 threw'));
 }
 
-function before(fn, key){
-  console.log('before', key);
+var uid = 0;
+
+function create(fn, key){
+  return {
+    uid: uid++,
+    key: key
+  };
 }
 
-function after(fn, key){
-  console.log('after', key);
+function before(storage){
+  console.log('before', storage);
 }
 
-function error(fn, key){
-  console.log('error', key);
+function after(storage){
+  console.log('after', storage);
 }
 
-var parallel = nowAndLater.parallel({
-  fn1: fn1,
-  fn2: fn2
-}, {
+function error(storage){
+  console.log('error', storage);
+}
+
+// var parallel = nowAndLater.parallel({
+//   fn1: fn1,
+//   fn2: fn2
+// }, {
+//   create: create,
+//   before: before,
+//   after: after,
+//   error: error
+// }, console.log);
+
+nowAndLater.series([fn1, fn2, fn3], {
+  create: create,
   before: before,
   after: after,
   error: error
-});
-
-nowAndLater.series([parallel, fn1, fn2, fn3], {
-  before: before,
-  after: after,
-  error: error
-})(console.log);
+}, console.log);
