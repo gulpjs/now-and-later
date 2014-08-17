@@ -25,6 +25,11 @@ function error(key){
   console.log('called after error in: ', key);
 }
 
+/*
+  Calling series with an object can't guarantee order
+  It uses Object.keys to get an order
+  It is better to use an array if order must be guaranteed
+ */
 nal.series({
   fn1: fn1,
   fn2: fn2
