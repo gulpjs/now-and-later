@@ -31,22 +31,17 @@ function error(fn, key){
   console.log('error', key);
 }
 
-nowAndLater.parallel({
+var parallel = nowAndLater.parallel({
   fn1: fn1,
-  fn2: fn2,
-  fn3: fn3
+  fn2: fn2
 }, {
   before: before,
   after: after,
   error: error
-})(console.log);
+});
 
-// nowAndLater.series({
-//   fn1: fn1,
-//   fn2: fn2,
-//   fn3: fn3
-// }, {
-//   before: before,
-//   after: after,
-//   error: error
-// })(console.log);
+nowAndLater.series([parallel, fn1, fn2, fn3], {
+  before: before,
+  after: after,
+  error: error
+})(console.log);
