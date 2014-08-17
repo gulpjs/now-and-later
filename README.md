@@ -13,16 +13,16 @@ function fn2(done){
   done(null, 2);
 }
 
-function before(key){
-  console.log('called before: ', key);
+function before(fn, key){
+  console.log('called before: ', fn.name, key);
 }
 
-function after(key){
-  console.log('called after: ', key);
+function after(fn, key){
+  console.log('called after: ', fn.name, key);
 }
 
-function error(key){
-  console.log('called after error in: ', key);
+function error(fn, key){
+  console.log('called after error in: ', fn.name, key);
 }
 
 /*
@@ -30,10 +30,7 @@ function error(key){
   It uses Object.keys to get an order
   It is better to use an array if order must be guaranteed
  */
-nal.series({
-  fn1: fn1,
-  fn2: fn2
-}, {
+nal.series([fn1, fn2], {
   before: before,
   after: after,
   error: error

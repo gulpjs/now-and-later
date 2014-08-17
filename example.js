@@ -19,15 +19,15 @@ function fn3(done){
   done(new Error('fn3 threw'));
 }
 
-function before(key){
+function before(fn, key){
   console.log('before', key);
 }
 
-function after(key){
+function after(fn, key){
   console.log('after', key);
 }
 
-function error(key){
+function error(fn, key){
   console.log('error', key);
 }
 
