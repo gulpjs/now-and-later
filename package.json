@@ -1,6 +1,6 @@
 {
   "name": "now-and-later",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Series/parallel execution of async functions with extension points",
   "main": "index.js",
   "scripts": {
