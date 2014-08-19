@@ -23,7 +23,7 @@
     "url": "https://github.com/phated/now-and-later/issues"
   },
   "homepage": "https://github.com/phated/now-and-later",
-  "dependencies": {
+  "devDependencies": {
     "async-done": "^0.3.0"
   }
 }
