@@ -1,6 +1,7 @@
 'use strict';
 
 var nowAndLater = require('./');
+var asyncDone = require('async-done');
 
 function fn1(done){
   console.log('fn1 called');
@@ -43,14 +44,14 @@ function error(storage){
 // var parallel = nowAndLater.parallel({
 //   fn1: fn1,
 //   fn2: fn2
-// }, {
+// }, asyncDone, {
 //   create: create,
 //   before: before,
 //   after: after,
 //   error: error
 // }, console.log);
 
-nowAndLater.series([fn1, fn2, fn3], {
+nowAndLater.series([fn1, fn2, fn3], asyncDone, {
   create: create,
   before: before,
   after: after,
