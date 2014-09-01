@@ -2,34 +2,42 @@
   "name": "now-and-later",
   "version": "0.0.5",
   "description": "Series/parallel execution of async functions with extension points",
+  "author": "Blaine Bublitz <blaine@iceddev.com> (http://iceddev.com/)",
+  "repository": "phated/now-and-later",
+  "license": "MIT",
+
+  "engines": {
+    "node": ">= 0.9"
+  },
+
   "main": "index.js",
+
   "scripts": {
     "test": "npm run lint && lab -cv",
     "lint": "jshint lib test index.js --reporter node_modules/jshint-stylish/stylish.js --exclude node_modules"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/phated/now-and-later"
+
+  "dependencies": {
+    "once": "^1.3.0"
   },
-  "keywords": [
-    "async",
-    "extension",
-    "tracing",
-    "debug",
-    "aop"
-  ],
-  "author": "Blaine Bublitz <blaine@iceddev.com> (http://iceddev.com/)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/phated/now-and-later/issues"
-  },
-  "homepage": "https://github.com/phated/now-and-later",
   "devDependencies": {
     "jshint": "^2.5.5",
     "jshint-stylish": "^0.4.0",
     "lab": "^4.2.0"
   },
-  "dependencies": {
-    "once": "^1.3.0"
-  }
+
+  "keywords": [
+    "async",
+    "async.js",
+    "map",
+    "control",
+    "flow",
+    "extension",
+    "tracing",
+    "debug",
+    "aop",
+    "aspect",
+    "timing",
+    "tracing"
+  ]
 }
