@@ -3,6 +3,9 @@
   "version": "0.0.5",
   "description": "Series/parallel execution of async functions with extension points",
   "author": "Blaine Bublitz <blaine@iceddev.com> (http://iceddev.com/)",
+  "contributors": [
+    "Blaine Bublitz <blaine@iceddev.com> (http://iceddev.com/)"
+  ],
   "repository": "phated/now-and-later",
   "license": "MIT",
 
