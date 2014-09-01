@@ -4,7 +4,8 @@
   "description": "Series/parallel execution of async functions with extension points",
   "main": "index.js",
   "scripts": {
-    "test": "lab -cv"
+    "test": "npm run lint && lab -cv",
+    "lint": "jshint lib test index.js --reporter node_modules/jshint-stylish/stylish.js --exclude node_modules"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,8 @@
   },
   "homepage": "https://github.com/phated/now-and-later",
   "devDependencies": {
+    "jshint": "^2.5.5",
+    "jshint-stylish": "^0.4.0",
     "lab": "^4.2.0"
   },
   "dependencies": {
