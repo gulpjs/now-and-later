@@ -1,7 +1,7 @@
 {
   "name": "now-and-later",
   "version": "0.0.5",
-  "description": "Series/parallel execution of async functions with extension points",
+  "description": "Map over an array of values in parallel or series, passing each through the async iterator. Optionally, specify lifecycle extension points for before the iterator runs, after completion, or upon error.",
   "author": "Blaine Bublitz <blaine@iceddev.com> (http://iceddev.com/)",
   "contributors": [
     "Blaine Bublitz <blaine@iceddev.com> (http://iceddev.com/)"
