@@ -7,7 +7,7 @@ var before = lab.before;
 var beforeEach = lab.beforeEach;
 var after = lab.after;
 var afterEach = lab.afterEach;
-var expect = require('lab').expect;
+var expect = require('code').expect;
 
 var nal = require('../');
 
@@ -205,7 +205,7 @@ describe('map', function(){
         return null;
       },
       before: function(storage){
-        expect(storage).to.be.an('object');
+        expect(storage).to.be.an.object();
         expect(storage).to.deep.equal({});
       }
     };
