@@ -13,7 +13,6 @@
   },
   "main": "index.js",
   "scripts": {
-    "pretest": "npm run lint",
     "test": "lab -cv",
     "lint": "eslint . && jscs *.js lib/ test/"
   },
