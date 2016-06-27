@@ -1,6 +1,6 @@
 'use strict';
 
 module.exports = {
-  series: require('./lib/series'),
-  parallel: require('./lib/parallel')
+  map: require('./lib/map'),
+  mapSeries: require('./lib/mapSeries')
 };
