@@ -1,10 +1,10 @@
 {
   "name": "now-and-later",
   "version": "0.0.6",
-  "description": "Map over an array of values in parallel or series, passing each through the async iterator. Optionally, specify lifecycle extension points for before the iterator runs, after completion, or upon error.",
-  "author": "Blaine Bublitz <blaine@iceddev.com> (http://iceddev.com/)",
+  "description": "Map over an array or object of values in parallel or series, passing each through the async iterator, with optional lifecycle hooks.",
+  "author": "Gulp Team <team@gulpjs.com> (http://gulpjs.com/)",
   "contributors": [
-    "Blaine Bublitz <blaine@iceddev.com> (http://iceddev.com/)"
+    "Blaine Bublitz <blaine.bublitz@gmail.com>"
   ],
   "repository": "gulpjs/now-and-later",
   "license": "MIT",
@@ -12,6 +12,11 @@
     "node": ">= 0.10"
   },
   "main": "index.js",
+  "files": [
+    "index.js",
+    "lib",
+    "LICENSE"
+  ],
   "scripts": {
     "lint": "eslint . && jscs index.js lib/ test/",
     "pretest": "npm run lint",
