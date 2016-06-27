@@ -1,9 +1,6 @@
 'use strict';
 
-var lab = exports.lab = require('lab').script();
-var describe = lab.describe;
-var it = lab.it;
-var expect = require('code').expect;
+var expect = require('expect');
 
 var nal = require('../');
 
@@ -17,7 +14,7 @@ describe('map', function() {
     }
 
     nal.map(initial, iterator, function(err, result) {
-      expect(initial).to.deep.equal(result);
+      expect(initial).toEqual(result);
       done(err);
     });
   });
@@ -29,7 +26,7 @@ describe('map', function() {
     function iterator(value, cb) {
       result.push(value);
       if (result.length === initial.length) {
-        expect(initial).to.deep.equal(result);
+        expect(initial).toEqual(result);
         done();
       }
       cb(null, value);
@@ -46,7 +43,7 @@ describe('map', function() {
     }
 
     nal.map(initial, iterator, function(err, result) {
-      expect(initial).to.deep.equal(result);
+      expect(initial).toEqual(result);
       done(err);
     });
   });
@@ -63,7 +60,7 @@ describe('map', function() {
     }
 
     nal.map(initial, iterator, function(err, result) {
-      expect(initial).to.deep.equal(result);
+      expect(initial).toEqual(result);
       done(err);
     });
   });
@@ -73,7 +70,7 @@ describe('map', function() {
       nal.map('nope');
     }
 
-    expect(nonObject).to.throw(Error);
+    expect(nonObject).toThrow(Error);
     done();
   });
 
@@ -88,8 +85,8 @@ describe('map', function() {
     }
 
     nal.map([1, 3, 2], iterator, function(err, result) {
-      expect(callOrder).to.deep.equal([1, 2, 3]);
-      expect(result).to.deep.equal([2, 6, 4]);
+      expect(callOrder).toEqual([1, 2, 3]);
+      expect(result).toEqual([2, 6, 4]);
       done(err);
     });
   });
@@ -102,8 +99,8 @@ describe('map', function() {
     }
 
     nal.map(initial, iterator, function(err, result) {
-      expect(initial).to.not.equal(result);
-      expect(initial).to.deep.equal(result);
+      expect(initial === result).toEqual(false);
+      expect(initial).toEqual(result);
       done(err);
     });
   });
@@ -113,9 +110,9 @@ describe('map', function() {
       cb(new Error('Boom'));
     }
 
-    nal.map([1, 2, 3], iterator, function(err, results) {
-      expect(err).to.be.an.instanceof(Error);
-      expect(err.message).to.equal('Boom');
+    nal.map([1, 2, 3], iterator, function(err) {
+      expect(err).toBeAn(Error);
+      expect(err.message).toEqual('Boom');
       done();
     });
   });
@@ -129,7 +126,7 @@ describe('map', function() {
     }
 
     nal.map(initial, iterator, function(err, result) {
-      expect(initial).to.deep.equal(result);
+      expect(initial).toEqual(result);
       done(err);
     });
   });
@@ -146,7 +143,7 @@ describe('map', function() {
 
     var extensions = {
       create: function(value, idx) {
-        expect(initial).to.include(value);
+        expect(initial).toInclude(value);
         create[idx] = value;
         return { idx: idx, value: value };
       },
@@ -159,9 +156,9 @@ describe('map', function() {
     };
 
     nal.map(initial, iterator, extensions, function(err, result) {
-      expect(initial).to.deep.equal(create);
-      expect(initial).to.deep.equal(before);
-      expect(result).to.deep.equal(after);
+      expect(initial).toEqual(create);
+      expect(initial).toEqual(before);
+      expect(result).toEqual(after);
       done(err);
     });
   });
@@ -184,7 +181,7 @@ describe('map', function() {
     };
 
     nal.map(initial, iterator, extensions, function(err) {
-      expect(err).to.deep.equal(error);
+      expect(err).toEqual(error);
       done();
     });
   });
@@ -201,8 +198,8 @@ describe('map', function() {
         return null;
       },
       before: function(storage) {
-        expect(storage).to.be.an.object();
-        expect(storage).to.deep.equal({});
+        expect(storage).toBeAn('object');
+        expect(storage).toEqual({});
       },
     };
 
