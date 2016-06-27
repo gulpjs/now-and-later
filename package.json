@@ -1,6 +1,6 @@
 {
   "name": "now-and-later",
-  "version": "0.0.6",
+  "version": "1.0.0",
   "description": "Map over an array or object of values in parallel or series, passing each through the async iterator, with optional lifecycle hooks.",
   "author": "Gulp Team <team@gulpjs.com> (http://gulpjs.com/)",
   "contributors": [
