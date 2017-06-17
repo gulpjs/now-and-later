@@ -15,8 +15,9 @@ Map over an array or object of values in parallel or series, passing each throug
 ```js
 var nal = require('now-and-later');
 
-function iterator(value, cb){
+function iterator(value, key, cb){
   // called with each value in sequence
+  // also passes the key
   cb(null, value * 2)
 }
 
@@ -86,11 +87,11 @@ If `values` is an array, iterations are started in order by index. If `values` i
 
 If `values` is an array, the results of each iteration will be mapped to an array. If `values` is an object, the results of each iteration will be mapped to an object with corresponding keys.
 
-#### `iterator(value, done)`
+#### `iterator(value, key, done)`
 
 An async function called per iteration. All iterations are run in parallel.
 
-The `iterator` function is called once with each `value` and a function (`done(error, result)`) to call when the async work is complete.
+The `iterator` function is called once with each `value`, `key` and a function (`done(error, result)`) to call when the async work is complete.
 
 If `done` is passed an error as the first argument, the iteration will fail and the sequence will be ended; however, any iterations in progress will still complete. If `done` is passed a `result` value as the second argument, it will be added to the final results array or object.
 
@@ -141,11 +142,11 @@ If `values` is an array, iterations are started in order by index. If `values` i
 
 If `values` is an array, the results of each iteration will be mapped to an array. If `values` is an object, the results of each iteration will be mapped to an object with corresponding keys.
 
-#### `iterator(value, done)`
+#### `iterator(value, key, done)`
 
 An async function called per iteration. All iterations are run in serial.
 
-The `iterator` function is called once with each `value` and a function (`done(error, result)`) to call when the async work is complete.
+The `iterator` function is called once with each `value`, `key` and a function (`done(error, result)`) to call when the async work is complete.
 
 If `done` is passed an error as the first argument, the iteration will fail and the sequence will be ended without executing any more iterations. If `done` is passed a `result` value as the second argument, it will be added to the final results array or object.
 

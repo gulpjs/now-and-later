@@ -9,7 +9,7 @@ describe('map', function() {
   it('will execute without an extension object', function(done) {
     var initial = [1, 2, 3];
 
-    function iterator(value, cb) {
+    function iterator(value, key, cb) {
       cb(null, value);
     }
 
@@ -23,7 +23,7 @@ describe('map', function() {
     var initial = [1, 2, 3];
     var result = [];
 
-    function iterator(value, cb) {
+    function iterator(value, key, cb) {
       result.push(value);
       if (result.length === initial.length) {
         expect(initial).toEqual(result);
@@ -38,7 +38,7 @@ describe('map', function() {
   it('should execute with array', function(done) {
     var initial = [1, 2, 3];
 
-    function iterator(value, cb) {
+    function iterator(value, key, cb) {
       cb(null, value);
     }
 
@@ -55,7 +55,7 @@ describe('map', function() {
       test3: 3,
     };
 
-    function iterator(value, cb) {
+    function iterator(value, key, cb) {
       cb(null, value);
     }
 
@@ -77,7 +77,7 @@ describe('map', function() {
   it('should maintain order', function(done) {
     var callOrder = [];
 
-    function iterator(value, cb) {
+    function iterator(value, key, cb) {
       setTimeout(function() {
         callOrder.push(value);
         cb(null, value * 2);
@@ -94,7 +94,7 @@ describe('map', function() {
   it('should not mutate the original array', function(done) {
     var initial = [1, 2, 3];
 
-    function iterator(value, cb) {
+    function iterator(value, key, cb) {
       cb(null, value);
     }
 
@@ -106,7 +106,7 @@ describe('map', function() {
   });
 
   it('should fail when an error occurs', function(done) {
-    function iterator(value, cb) {
+    function iterator(value, key, cb) {
       cb(new Error('Boom'));
     }
 
@@ -120,7 +120,7 @@ describe('map', function() {
   it('should ignore multiple calls to the callback inside iterator', function(done) {
     var initial = [1, 2, 3];
 
-    function iterator(value, cb) {
+    function iterator(value, key, cb) {
       cb(null, value);
       cb(null, value * 2);
     }
@@ -137,7 +137,7 @@ describe('map', function() {
     var before = [];
     var after = [];
 
-    function iterator(value, cb) {
+    function iterator(value, key, cb) {
       cb(null, value);
     }
 
@@ -167,7 +167,7 @@ describe('map', function() {
     var initial = [1, 2, 3];
     var error = [];
 
-    function iterator(value, cb) {
+    function iterator(value, key, cb) {
       cb(new Error('Boom'));
     }
 
@@ -189,7 +189,7 @@ describe('map', function() {
   it('should pass an empty object if falsy value is returned from create', function(done) {
     var initial = [1, 2, 3];
 
-    function iterator(value, cb) {
+    function iterator(value, key, cb) {
       cb(null, value);
     }
 
@@ -204,5 +204,39 @@ describe('map', function() {
     };
 
     nal.map(initial, iterator, extensions, done);
+  });
+
+  it('passes the key as the second argument to iterator (array)', function(done) {
+    var initial = [1, 2, 3];
+    var results = [];
+
+    function iterator(value, key, cb) {
+      results.push(key);
+      cb(null, value);
+    }
+
+    nal.map(initial, iterator, function(err) {
+      expect(results).toEqual(['0', '1', '2']);
+      done(err);
+    });
+  });
+
+  it('passes the key as the second argument to iterator (object)', function(done) {
+    var initial = {
+      test: 1,
+      test2: 2,
+      test3: 3,
+    };
+    var results = [];
+
+    function iterator(value, key, cb) {
+      results.push(key);
+      cb(null, value);
+    }
+
+    nal.map(initial, iterator, function(err) {
+      expect(results).toEqual(['test', 'test2', 'test3']);
+      done(err);
+    });
   });
 });
