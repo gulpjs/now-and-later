@@ -48,12 +48,38 @@ describe('map', function() {
     });
   });
 
+  it('executes with an empty array', function(done) {
+    var initial = [];
+
+    function iterator(value, key, cb) {
+      cb(null, value);
+    }
+
+    nal.map(initial, iterator, function(err, result) {
+      expect(initial).toEqual(result);
+      done(err);
+    });
+  });
+
   it('should execute with an object', function(done) {
     var initial = {
       test: 1,
       test2: 2,
       test3: 3,
     };
+
+    function iterator(value, key, cb) {
+      cb(null, value);
+    }
+
+    nal.map(initial, iterator, function(err, result) {
+      expect(initial).toEqual(result);
+      done(err);
+    });
+  });
+
+  it('executes with an empty object', function(done) {
+    var initial = {};
 
     function iterator(value, key, cb) {
       cb(null, value);
