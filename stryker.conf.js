@@ -1,10 +1,10 @@
 module.exports = function(config) {
   config.set({
-    mutator: "javascript",
-    packageManager: "npm",
-    reporters: ["html", "clear-text", "progress"],
-    testRunner: "command",
+    mutator: 'javascript',
+    packageManager: 'npm',
+    reporters: ['html', 'clear-text', 'progress'],
+    testRunner: 'command',
     transpilers: [],
-    coverageAnalysis: "all"
+    coverageAnalysis: 'none'
   });
 };
