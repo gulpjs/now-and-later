@@ -19,6 +19,7 @@
   ],
   "scripts": {
     "lint": "eslint . && jscs index.js lib/ test/",
+    "stryker": "stryker run",
     "test": "mocha --async-only",
     "cover": "istanbul cover _mocha --report lcovonly",
     "coveralls": "npm run cover && istanbul-coveralls"
