@@ -264,4 +264,60 @@ describe('map', function () {
       done(err);
     });
   });
+
+  it('reports partial result after an error', function(done) {
+    var initial = {
+      test1: 'a',
+      test2: 'b',
+      test3: 'c',
+      test4: 'd',
+    };
+
+    var testedKeys = [];
+
+    var cbCount = 0;
+
+    function iterator(value, key, cb) {
+      testedKeys.push(key);
+
+      if (key === 'test1') {
+        cb(null, value);
+      } else if (key === 'test2') {
+        cb(null, key);
+      } else if (key === 'test3') {
+        // Report an error here
+        cb('Boom');
+      } else if (key === 'test4') {
+        // Triggered after the callback:
+        expect(cbCount).toBe(1);
+        // This result should be ignored:
+        cb('bang');
+        // Finish the test here:
+        done();
+      } else {
+        // NOT expected to get here:
+        expect(false).toBe(true);
+        cb('crash');
+      }
+    }
+
+    nal.map(initial, iterator, function(err, res) {
+      expect(res).toEqual({
+        test1: 'a',
+        test2: 'test2',
+        test3: undefined,
+        test4: undefined,
+      });
+
+      expect(err).toBe('Boom');
+
+      expect(testedKeys).toEqual(['test1', 'test2', 'test3']);
+
+      expect(cbCount).toBe(0);
+      ++cbCount;
+
+      // Wait for the parallel map function to finish
+      // (last iterator call is triggered after this callback)
+    });
+  });
 });
