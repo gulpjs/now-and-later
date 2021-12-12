@@ -137,7 +137,7 @@ describe('map', function() {
     }
 
     nal.map([1, 2, 3], iterator, function(err) {
-      expect(err).toBeAn(Error);
+      expect(err).toBeInstanceOf(Error);
       expect(err.message).toEqual('Boom');
       done();
     });
@@ -169,7 +169,7 @@ describe('map', function() {
 
     var extensions = {
       create: function(value, idx) {
-        expect(initial).toInclude(value);
+        expect(initial).toContain(value);
         create[idx] = value;
         return { idx: idx, value: value };
       },
@@ -224,7 +224,7 @@ describe('map', function() {
         return null;
       },
       before: function(storage) {
-        expect(storage).toBeAn('object');
+        expect(typeof storage).toEqual('object');
         expect(storage).toEqual({});
       },
     };

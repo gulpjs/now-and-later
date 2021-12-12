@@ -1,12 +1,12 @@
 <p align="center">
-  <a href="http://gulpjs.com">
+  <a href="https://gulpjs.com">
     <img height="257" width="114" src="https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png">
   </a>
 </p>
 
 # now-and-later
 
-[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![AppVeyor Build Status][appveyor-image]][appveyor-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
+[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][ci-image]][ci-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 
 Map over an array or object of values in parallel or series, passing each through the async iterator, with optional lifecycle hooks.
 
@@ -186,18 +186,15 @@ If an iteration errored, the `error` argument will be passed from that iteration
 
 MIT
 
-[downloads-image]: http://img.shields.io/npm/dm/now-and-later.svg
+
+<!-- prettier-ignore-start -->
+[downloads-image]: https://img.shields.io/npm/dm/now-and-later.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/now-and-later
-[npm-image]: http://img.shields.io/npm/v/now-and-later.svg
+[npm-image]: https://img.shields.io/npm/v/now-and-later.svg?style=flat-square
 
-[travis-url]: https://travis-ci.org/gulpjs/now-and-later
-[travis-image]: http://img.shields.io/travis/gulpjs/now-and-later.svg?label=travis-ci
-
-[appveyor-url]: https://ci.appveyor.com/project/gulpjs/now-and-later
-[appveyor-image]: https://img.shields.io/appveyor/ci/gulpjs/now-and-later.svg?label=appveyor
+[ci-url]: https://github.com/gulpjs/now-and-later/actions?query=workflow:dev
+[ci-image]: https://img.shields.io/github/workflow/status/gulpjs/now-and-later/dev?style=flat-square
 
 [coveralls-url]: https://coveralls.io/r/gulpjs/now-and-later
-[coveralls-image]: http://img.shields.io/coveralls/gulpjs/now-and-later/master.svg
-
-[gitter-url]: https://gitter.im/gulpjs/gulp
-[gitter-image]: https://badges.gitter.im/gulpjs/gulp.svg
+[coveralls-image]: https://img.shields.io/coveralls/gulpjs/now-and-later/master.svg?style=flat-square
+<!-- prettier-ignore-end -->
