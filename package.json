@@ -44,6 +44,9 @@
   },
   "keywords": [
     "async",
+    "parallel",
+    "series",
+    "each",
     "async.js",
     "map",
     "control",
