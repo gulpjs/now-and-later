@@ -4,22 +4,21 @@ var expect = require('expect');
 
 var nal = require('../');
 
-describe('map', function() {
-
-  it('will execute without an extension object', function(done) {
+describe('map', function () {
+  it('will execute without an extension object', function (done) {
     var initial = [1, 2, 3];
 
     function iterator(value, key, cb) {
       cb(null, value);
     }
 
-    nal.map(initial, iterator, function(err, result) {
+    nal.map(initial, iterator, function (err, result) {
       expect(initial).toEqual(result);
       done(err);
     });
   });
 
-  it('should execute without a final callback', function(done) {
+  it('should execute without a final callback', function (done) {
     var initial = [1, 2, 3];
     var result = [];
 
@@ -35,33 +34,33 @@ describe('map', function() {
     nal.map(initial, iterator);
   });
 
-  it('should execute with array', function(done) {
+  it('should execute with array', function (done) {
     var initial = [1, 2, 3];
 
     function iterator(value, key, cb) {
       cb(null, value);
     }
 
-    nal.map(initial, iterator, function(err, result) {
+    nal.map(initial, iterator, function (err, result) {
       expect(initial).toEqual(result);
       done(err);
     });
   });
 
-  it('executes with an empty array', function(done) {
+  it('executes with an empty array', function (done) {
     var initial = [];
 
     function iterator(value, key, cb) {
       cb(null, value);
     }
 
-    nal.map(initial, iterator, function(err, result) {
+    nal.map(initial, iterator, function (err, result) {
       expect(initial).toEqual(result);
       done(err);
     });
   });
 
-  it('should execute with an object', function(done) {
+  it('should execute with an object', function (done) {
     var initial = {
       test: 1,
       test2: 2,
@@ -72,26 +71,26 @@ describe('map', function() {
       cb(null, value);
     }
 
-    nal.map(initial, iterator, function(err, result) {
+    nal.map(initial, iterator, function (err, result) {
       expect(initial).toEqual(result);
       done(err);
     });
   });
 
-  it('executes with an empty object', function(done) {
+  it('executes with an empty object', function (done) {
     var initial = {};
 
     function iterator(value, key, cb) {
       cb(null, value);
     }
 
-    nal.map(initial, iterator, function(err, result) {
+    nal.map(initial, iterator, function (err, result) {
       expect(initial).toEqual(result);
       done(err);
     });
   });
 
-  it('should throw if first argument is a non-object', function(done) {
+  it('should throw if first argument is a non-object', function (done) {
     function nonObject() {
       nal.map('nope');
     }
@@ -100,50 +99,50 @@ describe('map', function() {
     done();
   });
 
-  it('should maintain order', function(done) {
+  it('should maintain order', function (done) {
     var callOrder = [];
 
     function iterator(value, key, cb) {
-      setTimeout(function() {
+      setTimeout(function () {
         callOrder.push(value);
         cb(null, value * 2);
       }, value * 25);
     }
 
-    nal.map([1, 3, 2], iterator, function(err, result) {
+    nal.map([1, 3, 2], iterator, function (err, result) {
       expect(callOrder).toEqual([1, 2, 3]);
       expect(result).toEqual([2, 6, 4]);
       done(err);
     });
   });
 
-  it('should not mutate the original array', function(done) {
+  it('should not mutate the original array', function (done) {
     var initial = [1, 2, 3];
 
     function iterator(value, key, cb) {
       cb(null, value);
     }
 
-    nal.map(initial, iterator, function(err, result) {
+    nal.map(initial, iterator, function (err, result) {
       expect(initial === result).toEqual(false);
       expect(initial).toEqual(result);
       done(err);
     });
   });
 
-  it('should fail when an error occurs', function(done) {
+  it('should fail when an error occurs', function (done) {
     function iterator(value, key, cb) {
       cb(new Error('Boom'));
     }
 
-    nal.map([1, 2, 3], iterator, function(err) {
+    nal.map([1, 2, 3], iterator, function (err) {
       expect(err).toBeInstanceOf(Error);
       expect(err.message).toEqual('Boom');
       done();
     });
   });
 
-  it('should ignore multiple calls to the callback inside iterator', function(done) {
+  it('should ignore multiple calls to the callback inside iterator', function (done) {
     var initial = [1, 2, 3];
 
     function iterator(value, key, cb) {
@@ -151,13 +150,13 @@ describe('map', function() {
       cb(null, value * 2);
     }
 
-    nal.map(initial, iterator, function(err, result) {
+    nal.map(initial, iterator, function (err, result) {
       expect(initial).toEqual(result);
       done(err);
     });
   });
 
-  it('should take extension points and call them for each function', function(done) {
+  it('should take extension points and call them for each function', function (done) {
     var initial = [1, 2, 3];
     var create = [];
     var before = [];
@@ -168,20 +167,20 @@ describe('map', function() {
     }
 
     var extensions = {
-      create: function(value, idx) {
+      create: function (value, idx) {
         expect(initial).toContain(value);
         create[idx] = value;
         return { idx: idx, value: value };
       },
-      before: function(storage) {
+      before: function (storage) {
         before[storage.idx] = storage.value;
       },
-      after: function(result, storage) {
+      after: function (result, storage) {
         after[storage.idx] = result;
       },
     };
 
-    nal.map(initial, iterator, extensions, function(err, result) {
+    nal.map(initial, iterator, extensions, function (err, result) {
       expect(initial).toEqual(create);
       expect(initial).toEqual(before);
       expect(result).toEqual(after);
@@ -189,7 +188,7 @@ describe('map', function() {
     });
   });
 
-  it('should call the error extension point upon error', function(done) {
+  it('should call the error extension point upon error', function (done) {
     var initial = [1, 2, 3];
     var error = [];
 
@@ -198,21 +197,21 @@ describe('map', function() {
     }
 
     var extensions = {
-      create: function() {
+      create: function () {
         return {};
       },
-      error: function(err) {
+      error: function (err) {
         error = err;
       },
     };
 
-    nal.map(initial, iterator, extensions, function(err) {
+    nal.map(initial, iterator, extensions, function (err) {
       expect(err).toEqual(error);
       done();
     });
   });
 
-  it('should pass an empty object if falsy value is returned from create', function(done) {
+  it('should pass an empty object if falsy value is returned from create', function (done) {
     var initial = [1, 2, 3];
 
     function iterator(value, key, cb) {
@@ -220,10 +219,10 @@ describe('map', function() {
     }
 
     var extensions = {
-      create: function() {
+      create: function () {
         return null;
       },
-      before: function(storage) {
+      before: function (storage) {
         expect(typeof storage).toEqual('object');
         expect(storage).toEqual({});
       },
@@ -232,7 +231,7 @@ describe('map', function() {
     nal.map(initial, iterator, extensions, done);
   });
 
-  it('passes the key as the second argument to iterator (array)', function(done) {
+  it('passes the key as the second argument to iterator (array)', function (done) {
     var initial = [1, 2, 3];
     var results = [];
 
@@ -241,13 +240,13 @@ describe('map', function() {
       cb(null, value);
     }
 
-    nal.map(initial, iterator, function(err) {
+    nal.map(initial, iterator, function (err) {
       expect(results).toEqual(['0', '1', '2']);
       done(err);
     });
   });
 
-  it('passes the key as the second argument to iterator (object)', function(done) {
+  it('passes the key as the second argument to iterator (object)', function (done) {
     var initial = {
       test: 1,
       test2: 2,
@@ -260,7 +259,7 @@ describe('map', function() {
       cb(null, value);
     }
 
-    nal.map(initial, iterator, function(err) {
+    nal.map(initial, iterator, function (err) {
       expect(results).toEqual(['test', 'test2', 'test3']);
       done(err);
     });

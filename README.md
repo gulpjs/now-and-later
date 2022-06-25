@@ -15,29 +15,29 @@ Map over an array or object of values in parallel or series, passing each throug
 ```js
 var nal = require('now-and-later');
 
-function iterator(value, key, cb){
+function iterator(value, key, cb) {
   // called with each value in sequence
   // also passes the key
-  cb(null, value * 2)
+  cb(null, value * 2);
 }
 
-function create(value, key){
+function create(value, key) {
   // called at the beginning of every iteration
   // return a storage object to be passed to each lifecycle method
   return { key: key, value: value };
 }
 
-function before(storage){
+function before(storage) {
   // called before the iterator function of every iteration
   // receives the storage returned from `create`
 }
 
-function after(result, storage){
+function after(result, storage) {
   // called after a success occurs in the iterator function of any iteration
   // receives the `result` of the iterator and the storage returned from `create`
 }
 
-function error(error, storage){
+function error(error, storage) {
   // called after an error occurs in the iterator function of any iteration
   // receives the `error` of the iterator and the storage returned from `create`
 }
@@ -52,22 +52,32 @@ function done(error, results) {
   It uses Object.keys to get an order
   It is better to use an array if order must be guaranteed
  */
-nal.mapSeries([1, 2, 3], iterator, {
-  create: create,
-  before: before,
-  after: after,
-  error: error
-}, done);
+nal.mapSeries(
+  [1, 2, 3],
+  iterator,
+  {
+    create: create,
+    before: before,
+    after: after,
+    error: error,
+  },
+  done
+);
 
-nal.map({
-  iter1: 1,
-  iter2: 2
-}, iterator, {
-  create: create,
-  before: before,
-  after: after,
-  error: error
-}, done);
+nal.map(
+  {
+    iter1: 1,
+    iter2: 2,
+  },
+  iterator,
+  {
+    create: create,
+    before: before,
+    after: after,
+    error: error,
+  },
+  done
+);
 ```
 
 ## API
@@ -185,7 +195,6 @@ If an iteration errored, the `error` argument will be passed from that iteration
 ## License
 
 MIT
-
 
 <!-- prettier-ignore-start -->
 [downloads-image]: https://img.shields.io/npm/dm/now-and-later.svg?style=flat-square
