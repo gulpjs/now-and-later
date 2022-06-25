@@ -320,4 +320,104 @@ describe('map', function () {
       // (last iterator call is triggered after this callback)
     });
   });
+
+  it('runs at maximum concurrency by default', function (done) {
+    var createOrder = [];
+    var beforeOrder = [];
+    var afterOrder = [];
+
+    var options = {
+      create: function (value, idx) {
+        createOrder.push(idx);
+        return { idx: idx, value: value };
+      },
+      before: function (storage) {
+        beforeOrder.push(storage.idx);
+      },
+      after: function (result, storage) {
+        afterOrder.push(storage.idx);
+      },
+    };
+
+    function iterator(value, key, cb) {
+      setTimeout(function () {
+        cb(null, value);
+      }, value * 25);
+    }
+
+    nal.map([10, 5, 1], iterator, options, function (err) {
+      expect(createOrder).toEqual(['0', '1', '2']);
+      expect(beforeOrder).toEqual(['0', '1', '2']);
+      expect(afterOrder).toEqual(['2', '1', '0']);
+      done(err);
+    });
+  });
+
+  it('allows limiting concurrency to 1 via options', function (done) {
+    var createOrder = [];
+    var beforeOrder = [];
+    var afterOrder = [];
+
+    var options = {
+      // Concurrency of 1 basically makes a series runner
+      concurrency: 1,
+      create: function (value, idx) {
+        createOrder.push(idx);
+        return { idx: idx, value: value };
+      },
+      before: function (storage) {
+        beforeOrder.push(storage.idx);
+      },
+      after: function (result, storage) {
+        afterOrder.push(storage.idx);
+      },
+    };
+
+    function iterator(value, key, cb) {
+      setTimeout(function () {
+        cb(null, value);
+      }, value * 25);
+    }
+
+    nal.map([10, 5, 1], iterator, options, function (err) {
+      expect(createOrder).toEqual(['0', '1', '2']);
+      expect(beforeOrder).toEqual(['0', '1', '2']);
+      expect(afterOrder).toEqual(['0', '1', '2']);
+      done(err);
+    });
+  });
+
+  it('allows limiting concurrency to 2 via options', function (done) {
+    var createOrder = [];
+    var beforeOrder = [];
+    var afterOrder = [];
+
+    var options = {
+      // Concurrency of 2
+      concurrency: 2,
+      create: function (value, idx) {
+        createOrder.push(idx);
+        return { idx: idx, value: value };
+      },
+      before: function (storage) {
+        beforeOrder.push(storage.idx);
+      },
+      after: function (result, storage) {
+        afterOrder.push(storage.idx);
+      },
+    };
+
+    function iterator(value, key, cb) {
+      setTimeout(function () {
+        cb(null, value);
+      }, value * 25);
+    }
+
+    nal.map([10, 1, 20, 5], iterator, options, function (err) {
+      expect(createOrder).toEqual(['0', '1', '2', '3']);
+      expect(beforeOrder).toEqual(['0', '1', '2', '3']);
+      expect(afterOrder).toEqual(['1', '0', '3', '2']);
+      done(err);
+    });
+  });
 });
