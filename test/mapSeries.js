@@ -265,7 +265,7 @@ describe('mapSeries', function () {
     });
   });
 
-  it('reports partial result after an error', function(done) {
+  it('reports partial result after an error', function (done) {
     var initial = {
       test1: 'a',
       test2: 'b',
@@ -298,7 +298,7 @@ describe('mapSeries', function () {
       }
     }
 
-    nal.mapSeries(initial, iterator, function(err, res) {
+    nal.mapSeries(initial, iterator, function (err, res) {
       expect(res).toEqual({
         test1: 'a',
         test2: 'test2',

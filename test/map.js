@@ -265,7 +265,7 @@ describe('map', function () {
     });
   });
 
-  it('reports partial result after an error', function(done) {
+  it('reports partial result after an error', function (done) {
     var initial = {
       test1: 'a',
       test2: 'b',
@@ -301,7 +301,7 @@ describe('map', function () {
       }
     }
 
-    nal.map(initial, iterator, function(err, res) {
+    nal.map(initial, iterator, function (err, res) {
       expect(res).toEqual({
         test1: 'a',
         test2: 'test2',
