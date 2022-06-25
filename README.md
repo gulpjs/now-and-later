@@ -82,10 +82,10 @@ nal.map(
 
 ## API
 
-### `map(values, iterator[, extensions][, callback])`
+### `map(values, iterator[, options][, callback])`
 
 Takes an object or array of `values` and an `iterator` function to execute with each value.
-Optionally, takes an `extensions` object and a `callback` function that is called upon completion of the iterations.
+Optionally, takes an `options` object and a `callback` function that is called upon completion of the iterations.
 
 All iterations run in parallel.
 
@@ -105,11 +105,17 @@ The `iterator` function is called once with each `value`, `key` and a function (
 
 If `done` is passed an error as the first argument, the iteration will fail and the sequence will be ended; however, any iterations in progress will still complete. If `done` is passed a `result` value as the second argument, it will be added to the final results array or object.
 
-#### `extensions`
+#### `options`
 
-The `extensions` object is used for specifying functions that give insight into the lifecycle of each iteration. The possible extension points are `create`, `before`, `after` and `error`. If an extension point is not specified, it defaults to a no-op function.
+The `options` object is primarily used for specifying functions that give insight into the lifecycle of each iteration. The possible extension points are `create`, `before`, `after` and `error`. If an extension point is not specified, it defaults to a no-op function.
 
-##### `extensions.create(value, key)`
+The `options` object for `map` also allows specifying `concurrency` in which to run your iterations. By default, your iterations will run at maximum concurrency.
+
+##### `options.concurrency`
+
+Limits the amount of iterations allowed to run at a given time.
+
+##### `options.create(value, key)`
 
 Called at the very beginning of each iteration with the `value` being iterated and the `key` from the array or object. If `create` returns a value (`storage`), it is passed to the `before`, `after` and `error` extension points.
 
@@ -117,15 +123,15 @@ If a value is not returned, an empty object is used as `storage` for each other 
 
 This is useful for tracking information across an iteration.
 
-##### `extensions.before(storage)`
+##### `options.before(storage)`
 
 Called immediately before each iteration with the `storage` value returned from the `create` extension point.
 
-##### `extensions.after(result, storage)`
+##### `options.after(result, storage)`
 
 Called immediately after each iteration with the `result` of the iteration and the `storage` value returned from the `create` extension point.
 
-##### `extensions.error(error, storage)`
+##### `options.error(error, storage)`
 
 Called immediately after a failed iteration with the `error` of the iteration and the `storage` value returned from the `create` extension point.
 
@@ -137,10 +143,10 @@ If all iterations completed successfully, the `error` argument will be empty and
 
 If an iteration errored, the `error` argument will be passed from that iteration and the `results` will be whatever partial results had completed successfully before the error occurred.
 
-### `mapSeries(values, iterator[, extensions][, callback])`
+### `mapSeries(values, iterator[, options][, callback])`
 
 Takes an object or array of `values` and an `iterator` function to execute with each value.
-Optionally, takes an `extensions` object and a `callback` function that is called upon completion of the iterations.
+Optionally, takes an `options` object and a `callback` function that is called upon completion of the iterations.
 
 All iterations run in serial.
 
@@ -160,11 +166,11 @@ The `iterator` function is called once with each `value`, `key` and a function (
 
 If `done` is passed an error as the first argument, the iteration will fail and the sequence will be ended without executing any more iterations. If `done` is passed a `result` value as the second argument, it will be added to the final results array or object.
 
-#### `extensions`
+#### `options`
 
-The `extensions` object is used for specifying functions that give insight into the lifecycle of each iteration. The possible extension points are `create`, `before`, `after` and `error`. If an extension point is not specified, it defaults to a no-op function.
+The `options` object is primarily used for specifying functions that give insight into the lifecycle of each iteration. The possible extension points are `create`, `before`, `after` and `error`. If an extension point is not specified, it defaults to a no-op function.
 
-##### `extensions.create(value, key)`
+##### `options.create(value, key)`
 
 Called at the very beginning of each iteration with the `value` being iterated and the `key` from the array or object. If `create` returns a value (`storage`), it is passed to the `before`, `after` and `error` extension points.
 
@@ -172,15 +178,15 @@ If a value is not returned, an empty object is used as `storage` for each other 
 
 This is useful for tracking information across an iteration.
 
-##### `extensions.before(storage)`
+##### `options.before(storage)`
 
 Called immediately before each iteration with the `storage` value returned from the `create` extension point.
 
-##### `extensions.after(result, storage)`
+##### `options.after(result, storage)`
 
 Called immediately after each iteration with the `result` of the iteration and the `storage` value returned from the `create` extension point.
 
-##### `extensions.error(error, storage)`
+##### `options.error(error, storage)`
 
 Called immediately after a failed iteration with the `error` of the iteration and the `storage` value returned from the `create` extension point.
 
