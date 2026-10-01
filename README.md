@@ -13,7 +13,7 @@ Map over an array or object of values in parallel or series, passing each throug
 ## Usage
 
 ```js
-var nal = require('now-and-later');
+var nal = require("now-and-later");
 
 function iterator(value, key, cb) {
   // called with each value in sequence
@@ -61,7 +61,7 @@ nal.mapSeries(
     after: after,
     error: error,
   },
-  done
+  done,
 );
 
 nal.map(
@@ -76,7 +76,7 @@ nal.map(
     after: after,
     error: error,
   },
-  done
+  done,
 );
 ```
 
