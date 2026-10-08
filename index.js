@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
 module.exports = {
-  map: require('./lib/map'),
-  mapSeries: require('./lib/mapSeries'),
+  map: require("./lib/map"),
+  mapSeries: require("./lib/mapSeries"),
 };
