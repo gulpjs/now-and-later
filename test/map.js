@@ -8,7 +8,6 @@ var nal = require("../");
 describe("map", function () {
   it("will execute without an extension object", function (t, done) {
     var initial = [1, 2, 3];
-    ``;
     function iterator(value, key, cb) {
       cb(null, value);
     }
@@ -91,12 +90,12 @@ describe("map", function () {
     });
   });
 
-  it("should throw if first argument is a non-object", function (t, done) {
+  it("should throw if first argument is a non-object", function () {
     function nonObject() {
       nal.map("nope");
     }
+
     assert.throws(nonObject);
-    done();
   });
 
   it("should maintain order", function (t, done) {
@@ -168,7 +167,7 @@ describe("map", function () {
 
     var extensions = {
       create: function (value, idx) {
-        assert.ok(initial.includes(value));
+        assert.deepStrictEqual(initial.includes(value), true);
         create[idx] = value;
         return { idx: idx, value: value };
       },
@@ -296,9 +295,7 @@ describe("map", function () {
         done();
       } else {
         // NOT expected to get here:
-        // MZB I question why a false assert is better then a thrown error
-        assert.strictEqual(false, true);
-        cb("crash");
+        assert.fail("should not be reached");
       }
     }
 
