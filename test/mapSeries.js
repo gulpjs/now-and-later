@@ -168,7 +168,7 @@ describe("mapSeries", function () {
 
     var extensions = {
       create: function (value, idx) {
-        assert.ok(initial.includes(value));
+        assert.deepStrictEqual(initial.includes(value), true);
         create[idx] = value;
         return { idx: idx, value: value };
       },
