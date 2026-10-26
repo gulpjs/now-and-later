@@ -1,31 +1,31 @@
 "use strict";
 
-var expect = require("expect");
+var assert = require("node:assert");
+var { describe, it } = require("node:test");
 
 var nal = require("../");
 
 describe("map", function () {
-  it("will execute without an extension object", function (done) {
+  it("will execute without an extension object", function (t, done) {
     var initial = [1, 2, 3];
-
     function iterator(value, key, cb) {
       cb(null, value);
     }
 
     nal.map(initial, iterator, function (err, result) {
-      expect(initial).toEqual(result);
+      assert.deepStrictEqual(initial, result);
       done(err);
     });
   });
 
-  it("should execute without a final callback", function (done) {
+  it("should execute without a final callback", function (t, done) {
     var initial = [1, 2, 3];
     var result = [];
 
     function iterator(value, key, cb) {
       result.push(value);
       if (result.length === initial.length) {
-        expect(initial).toEqual(result);
+        assert.deepStrictEqual(initial, result);
         done();
       }
       cb(null, value);
@@ -34,7 +34,7 @@ describe("map", function () {
     nal.map(initial, iterator);
   });
 
-  it("should execute with array", function (done) {
+  it("should execute with array", function (t, done) {
     var initial = [1, 2, 3];
 
     function iterator(value, key, cb) {
@@ -42,12 +42,12 @@ describe("map", function () {
     }
 
     nal.map(initial, iterator, function (err, result) {
-      expect(initial).toEqual(result);
+      assert.deepStrictEqual(initial, result);
       done(err);
     });
   });
 
-  it("executes with an empty array", function (done) {
+  it("executes with an empty array", function (t, done) {
     var initial = [];
 
     function iterator(value, key, cb) {
@@ -55,12 +55,12 @@ describe("map", function () {
     }
 
     nal.map(initial, iterator, function (err, result) {
-      expect(initial).toEqual(result);
+      assert.deepStrictEqual(initial, result);
       done(err);
     });
   });
 
-  it("should execute with an object", function (done) {
+  it("should execute with an object", function (t, done) {
     var initial = {
       test: 1,
       test2: 2,
@@ -72,12 +72,12 @@ describe("map", function () {
     }
 
     nal.map(initial, iterator, function (err, result) {
-      expect(initial).toEqual(result);
+      assert.deepStrictEqual(initial, result);
       done(err);
     });
   });
 
-  it("executes with an empty object", function (done) {
+  it("executes with an empty object", function (t, done) {
     var initial = {};
 
     function iterator(value, key, cb) {
@@ -85,21 +85,20 @@ describe("map", function () {
     }
 
     nal.map(initial, iterator, function (err, result) {
-      expect(initial).toEqual(result);
+      assert.deepStrictEqual(initial, result);
       done(err);
     });
   });
 
-  it("should throw if first argument is a non-object", function (done) {
+  it("should throw if first argument is a non-object", function () {
     function nonObject() {
       nal.map("nope");
     }
 
-    expect(nonObject).toThrow(Error);
-    done();
+    assert.throws(nonObject);
   });
 
-  it("should maintain order", function (done) {
+  it("should maintain order", function (t, done) {
     var callOrder = [];
 
     function iterator(value, key, cb) {
@@ -110,13 +109,13 @@ describe("map", function () {
     }
 
     nal.map([1, 3, 2], iterator, function (err, result) {
-      expect(callOrder).toEqual([1, 2, 3]);
-      expect(result).toEqual([2, 6, 4]);
+      assert.deepStrictEqual(callOrder, [1, 2, 3]);
+      assert.deepStrictEqual(result, [2, 6, 4]);
       done(err);
     });
   });
 
-  it("should not mutate the original array", function (done) {
+  it("should not mutate the original array", function (t, done) {
     var initial = [1, 2, 3];
 
     function iterator(value, key, cb) {
@@ -124,25 +123,25 @@ describe("map", function () {
     }
 
     nal.map(initial, iterator, function (err, result) {
-      expect(initial === result).toEqual(false);
-      expect(initial).toEqual(result);
+      assert.notStrictEqual(initial, result);
+      assert.deepStrictEqual(initial, result);
       done(err);
     });
   });
 
-  it("should fail when an error occurs", function (done) {
+  it("should fail when an error occurs", function (t, done) {
     function iterator(value, key, cb) {
       cb(new Error("Boom"));
     }
 
     nal.map([1, 2, 3], iterator, function (err) {
-      expect(err).toBeInstanceOf(Error);
-      expect(err.message).toEqual("Boom");
+      assert.ok(err instanceof Error);
+      assert.deepStrictEqual(err.message, "Boom");
       done();
     });
   });
 
-  it("should ignore multiple calls to the callback inside iterator", function (done) {
+  it("should ignore multiple calls to the callback inside iterator", function (t, done) {
     var initial = [1, 2, 3];
 
     function iterator(value, key, cb) {
@@ -151,12 +150,12 @@ describe("map", function () {
     }
 
     nal.map(initial, iterator, function (err, result) {
-      expect(initial).toEqual(result);
+      assert.deepStrictEqual(initial, result);
       done(err);
     });
   });
 
-  it("should take extension points and call them for each function", function (done) {
+  it("should take extension points and call them for each function", function (t, done) {
     var initial = [1, 2, 3];
     var create = [];
     var before = [];
@@ -168,7 +167,7 @@ describe("map", function () {
 
     var extensions = {
       create: function (value, idx) {
-        expect(initial).toContain(value);
+        assert.deepStrictEqual(initial.includes(value), true);
         create[idx] = value;
         return { idx: idx, value: value };
       },
@@ -181,14 +180,14 @@ describe("map", function () {
     };
 
     nal.map(initial, iterator, extensions, function (err, result) {
-      expect(initial).toEqual(create);
-      expect(initial).toEqual(before);
-      expect(result).toEqual(after);
+      assert.deepStrictEqual(initial, create);
+      assert.deepStrictEqual(initial, before);
+      assert.deepStrictEqual(result, after);
       done(err);
     });
   });
 
-  it("should call the error extension point upon error", function (done) {
+  it("should call the error extension point upon error", function (t, done) {
     var initial = [1, 2, 3];
     var error = [];
 
@@ -206,12 +205,12 @@ describe("map", function () {
     };
 
     nal.map(initial, iterator, extensions, function (err) {
-      expect(err).toEqual(error);
+      assert.deepStrictEqual(err, error);
       done();
     });
   });
 
-  it("should pass an empty object if falsy value is returned from create", function (done) {
+  it("should pass an empty object if falsy value is returned from create", function (t, done) {
     var initial = [1, 2, 3];
 
     function iterator(value, key, cb) {
@@ -223,15 +222,15 @@ describe("map", function () {
         return null;
       },
       before: function (storage) {
-        expect(typeof storage).toEqual("object");
-        expect(storage).toEqual({});
+        assert.deepStrictEqual(typeof storage, "object");
+        assert.deepStrictEqual(storage, {});
       },
     };
 
     nal.map(initial, iterator, extensions, done);
   });
 
-  it("passes the key as the second argument to iterator (array)", function (done) {
+  it("passes the key as the second argument to iterator (array)", function (t, done) {
     var initial = [1, 2, 3];
     var results = [];
 
@@ -241,12 +240,12 @@ describe("map", function () {
     }
 
     nal.map(initial, iterator, function (err) {
-      expect(results).toEqual(["0", "1", "2"]);
+      assert.deepStrictEqual(results, ["0", "1", "2"]);
       done(err);
     });
   });
 
-  it("passes the key as the second argument to iterator (object)", function (done) {
+  it("passes the key as the second argument to iterator (object)", function (t, done) {
     var initial = {
       test: 1,
       test2: 2,
@@ -260,12 +259,12 @@ describe("map", function () {
     }
 
     nal.map(initial, iterator, function (err) {
-      expect(results).toEqual(["test", "test2", "test3"]);
+      assert.deepStrictEqual(results, ["test", "test2", "test3"]);
       done(err);
     });
   });
 
-  it("reports partial result after an error", function (done) {
+  it("reports partial result after an error", function (t, done) {
     var initial = {
       test1: "a",
       test2: "b",
@@ -289,31 +288,30 @@ describe("map", function () {
         cb("Boom");
       } else if (key === "test4") {
         // Triggered after the callback:
-        expect(cbCount).toBe(1);
+        assert.strictEqual(cbCount, 1);
         // This result should be ignored:
         cb("bang");
         // Finish the test here:
         done();
       } else {
         // NOT expected to get here:
-        expect(false).toBe(true);
-        cb("crash");
+        assert.fail("should not be reached");
       }
     }
 
     nal.map(initial, iterator, function (err, res) {
-      expect(res).toEqual({
+      assert.deepStrictEqual(res, {
         test1: "a",
         test2: "test2",
         test3: undefined,
         test4: undefined,
       });
 
-      expect(err).toBe("Boom");
+      assert.strictEqual(err, "Boom");
 
-      expect(testedKeys).toEqual(["test1", "test2", "test3"]);
+      assert.deepStrictEqual(testedKeys, ["test1", "test2", "test3"]);
 
-      expect(cbCount).toBe(0);
+      assert.strictEqual(cbCount, 0);
       ++cbCount;
 
       // Wait for the parallel map function to finish
@@ -321,7 +319,7 @@ describe("map", function () {
     });
   });
 
-  it("runs at maximum concurrency by default", function (done) {
+  it("runs at maximum concurrency by default", function (t, done) {
     var createOrder = [];
     var beforeOrder = [];
     var afterOrder = [];
@@ -346,14 +344,14 @@ describe("map", function () {
     }
 
     nal.map([10, 5, 1], iterator, options, function (err) {
-      expect(createOrder).toEqual(["0", "1", "2"]);
-      expect(beforeOrder).toEqual(["0", "1", "2"]);
-      expect(afterOrder).toEqual(["2", "1", "0"]);
+      assert.deepStrictEqual(createOrder, ["0", "1", "2"]);
+      assert.deepStrictEqual(beforeOrder, ["0", "1", "2"]);
+      assert.deepStrictEqual(afterOrder, ["2", "1", "0"]);
       done(err);
     });
   });
 
-  it("allows limiting concurrency to 1 via options", function (done) {
+  it("allows limiting concurrency to 1 via options", function (t, done) {
     var createOrder = [];
     var beforeOrder = [];
     var afterOrder = [];
@@ -380,14 +378,14 @@ describe("map", function () {
     }
 
     nal.map([10, 5, 1], iterator, options, function (err) {
-      expect(createOrder).toEqual(["0", "1", "2"]);
-      expect(beforeOrder).toEqual(["0", "1", "2"]);
-      expect(afterOrder).toEqual(["0", "1", "2"]);
+      assert.deepStrictEqual(createOrder, ["0", "1", "2"]);
+      assert.deepStrictEqual(beforeOrder, ["0", "1", "2"]);
+      assert.deepStrictEqual(afterOrder, ["0", "1", "2"]);
       done(err);
     });
   });
 
-  it("allows limiting concurrency to 2 via options", function (done) {
+  it("allows limiting concurrency to 2 via options", function (t, done) {
     var createOrder = [];
     var beforeOrder = [];
     var afterOrder = [];
@@ -414,9 +412,9 @@ describe("map", function () {
     }
 
     nal.map([10, 1, 20, 5], iterator, options, function (err) {
-      expect(createOrder).toEqual(["0", "1", "2", "3"]);
-      expect(beforeOrder).toEqual(["0", "1", "2", "3"]);
-      expect(afterOrder).toEqual(["1", "0", "3", "2"]);
+      assert.deepStrictEqual(createOrder, ["0", "1", "2", "3"]);
+      assert.deepStrictEqual(beforeOrder, ["0", "1", "2", "3"]);
+      assert.deepStrictEqual(afterOrder, ["1", "0", "3", "2"]);
       done(err);
     });
   });
