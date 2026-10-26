@@ -291,6 +291,7 @@ describe("mapSeries", function () {
         // NOT expected to get here:
         assert.fail("should not be reached");
       } else {
+        // NOT expected to get here:
         assert.fail("should not be reached");
       }
     }
