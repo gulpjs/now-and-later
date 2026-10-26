@@ -293,7 +293,6 @@ describe("mapSeries", function () {
         cb("crash");
       } else {
         assert.fail("should not be reached");
-        cb("crash");
       }
     }
 
