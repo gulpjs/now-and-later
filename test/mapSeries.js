@@ -288,7 +288,7 @@ describe("mapSeries", function () {
         // Report an error here
         cb("Boom");
       } else if (key === "test4") {
-        // NOT assert.deepStrictEqualed to get here:
+        // NOT expected to get here:
         assert.strictEqual(false, true);
         cb("crash");
       } else {
