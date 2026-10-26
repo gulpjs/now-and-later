@@ -290,7 +290,6 @@ describe("mapSeries", function () {
       } else if (key === "test4") {
         // NOT expected to get here:
         assert.fail("should not be reached");
-        cb("crash");
       } else {
         assert.fail("should not be reached");
       }
