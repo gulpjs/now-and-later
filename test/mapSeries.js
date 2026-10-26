@@ -91,12 +91,12 @@ describe("mapSeries", function () {
     });
   });
 
-  it("should throw if first argument is a non-object", function (t, done) {
+  it("should throw if first argument is a non-object", function () {
     function nonObject() {
       nal.mapSeries("nope");
     }
+
     assert.throws(nonObject);
-    done();
   });
 
   it("should maintain order", function (t, done) {
@@ -292,8 +292,7 @@ describe("mapSeries", function () {
         assert.strictEqual(false, true);
         cb("crash");
       } else {
-        // NOT assert.deepStrictEqualed to get here:
-        assert.strictEqual(false, true);
+        assert.fail("should not be reached");
         cb("crash");
       }
     }

@@ -95,6 +95,7 @@ describe("map", function () {
       nal.map("nope");
     }
 
+
     assert.throws(nonObject);
   });
 
